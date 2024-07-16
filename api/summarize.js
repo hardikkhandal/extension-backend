@@ -6,12 +6,12 @@ const { extractVideoId } = require("../helpers/extractVideoId");
 const router = express.Router();
 
 router.post("/summarize", async (req, res) => {
-  console.log("Request body:", req.body);
-  const { videoUrl } = req.body;
-  console.log("Request received to summarize video:", videoUrl);
-  const videoId = extractVideoId(videoUrl);
-
   try {
+    console.log("Request body:", req.body);
+    const { videoUrl } = req.body;
+    console.log("Request received to summarize video:", videoUrl);
+    const videoId = extractVideoId(videoUrl);
+
     const transcript = await getTranscript(videoId, { timeout: 60000 });
     const transcriptText = transcript.map((entry) => entry.text).join(" ");
     console.log("Fetched transcript:", transcriptText);

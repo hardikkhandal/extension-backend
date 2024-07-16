@@ -8,14 +8,14 @@ const router = express.Router();
 router.post("/question", async (req, res) => {
   const { message, videoUrl } = req.body;
 
-  console.log("Received question:", message);
+  console.log("Received question on question.js:", message);
 
   try {
     const videoId = extractVideoId(videoUrl);
     const transcript = await getTranscript(videoId, { timeout: 60000 });
     const transcriptText = transcript.map((entry) => entry.text).join(" ");
 
-    const prompt = `Answer the following question: ${message} from the youtube url ${videoUrl} and having transcript ${transcriptText} also response should be like a bot user should not know that you know the transcript and videoUrl `;
+    const prompt = `${message} from the youtube url ${videoUrl} and having transcript ${transcriptText}. Only tell answer in shortest sentence`;
     const answer = await generateText("llama3-8b-8192", prompt);
 
     console.log(answer);
